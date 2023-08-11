@@ -1,8 +1,18 @@
-using Microsoft.AspNetCore.ResponseCompression;
+using CRUD_Blazzor_App.Server.Interface;
+using CRUD_Blazzor_App.Server.Models;
+using CRUD_Blazzor_App.Server.Service;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+
 // Add services to the container.
+//Donot forgot to add ConnectionStrings as "DefaultConnection" to the appsetting.json file
+builder.Services.AddDbContext<DatabaseContext>
+    (options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddTransient<IUser, UserManager>();
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
